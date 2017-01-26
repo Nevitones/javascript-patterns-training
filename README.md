@@ -2,6 +2,8 @@
 
 ### Basics
 
+##### Hoisting
+
 ##### This: Scope VS Context
 ```javascript
 function whataScope() {
