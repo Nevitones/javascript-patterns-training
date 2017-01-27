@@ -3,6 +3,12 @@
 ### Basics
 
 ##### Hoisting
+```javascript
+    console.log(foo); // undefined
+    console.log(woo); // ReferenceError
+    var foo = 'bar';
+    console.log(foo); // 'bar'
+```
 
 ##### This: Scope VS Context
 ```javascript
@@ -41,10 +47,13 @@ console.log(whataScope.apply(freakingContext) === freakingContext); // true
 ```
 
 ##### Closures
+The function ability of having its own scope.
 ```javascript
 (function(){
-
+    var tryMeOutThere = true;
 }());
+
+console.log(tryMeOutThere); // ReferenceError
 ```
 
 ##### Namespacing
