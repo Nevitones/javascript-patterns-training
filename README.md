@@ -20,6 +20,24 @@ console.log(freakingContext.whereAmI() === freakingContext); // true
 ```
 Adding the **new** keyword, the function uses the brand new created object
 
+##### Apply and Call
+
+```javascript
+function whataScope() {
+    return this;
+}
+
+console.log(whataScope() === window); // true
+
+var freakingContext = {
+        whereAmI: function() {
+            return this;
+        }
+    };
+
+console.log(whataScope.apply(freakingContext) === freakingContext); // true
+```
+
 ##### Closures
 ```javascript
 (function(){
@@ -46,7 +64,7 @@ var namespace = namespace || {}
 ```
 
 
-### Classes
+### Mimicking Classes
 ##### Constructor
 ```javascript
 function MyClass() {}
@@ -123,3 +141,4 @@ http://stackoverflow.com/a/38086977
 }());
 ```
 
+### Factory
