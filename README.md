@@ -48,6 +48,13 @@ console.log(whataScope.apply(freakingContext) === freakingContext); // true
 
 ##### Closures
 The function ability of having its own scope.
+
+**IIFE** (**I**mmediately **I**nvoked **F**unction **E**xpression)
+
+**SIAF** (**S**elf **I**nvoking **A**nonymous **F**unction)
+
+**SEAF** (**S**elf-**E**xecuting **A**nonymous **F**unction)
+
 ```javascript
 (function(){
     var tryMeOutThere = true;
@@ -71,9 +78,25 @@ var namespace = namespace || {}
     this.MyClass = function() {
         ...
     };
-}).apply(namespace));
+}).apply(namespace);
 ```
 
+### Patterns
+
+#### Module
+Javascript "classes"
+##### Variants
+
+#### Prototype
+##### Variants
+
+#### Observer
+
+#### Singleton
+
+#### Facade
+
+#### Factory
 
 ### Mimicking Classes
 ##### Constructor
@@ -149,7 +172,21 @@ http://stackoverflow.com/a/38086977
         return privateMethod();
         return privateMethod.apply(this, arguments);
     }
+
+    function MyOtherClass() {
+        // Calling base constructor
+        MyClass.apply(arguments);
+    }
+
+    MyOtherClass.prototype.constructor = MyOtherClass;
+
 }());
 ```
 
 ### Factory
+
+### Misc
+strict equal operator ===
+never omit semicolons
+jquery (avoid unnecessary queries)
+http://jsperf.com/getelementbyid-vs-jquery-id
