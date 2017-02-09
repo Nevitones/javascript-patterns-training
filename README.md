@@ -331,4 +331,5 @@ try {
 - http://stackoverflow.com/a/38086977
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
 - https://developer.mozilla.org/en/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#Example
+- https://addyosmani.com/resources/essentialjsdesignpatterns/book/#singletonpatternjavascript
 - https://en.wikipedia.org/wiki/Foobar
