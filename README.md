@@ -4,26 +4,23 @@
 
 ##### Hoisting
 ```javascript
-    console.log(foo); // undefined
-    console.log(woo); // ReferenceError
-    var foo = 'bar';
-    console.log(foo); // 'bar'
+console.log(foo); // undefined
+console.log(woo); // ReferenceError
+var foo = 'bar';
+console.log(foo); // 'bar'
 ```
 
-##### This: Scope VS Context
+##### Scope VS Context
 ```javascript
 function whataContext() {
     return this;
 }
 
-console.log(whataContext() === window); // true
-
 var freakingContext = {
-        whereAmI: function() {
-            return this;
-        }
+        whereAmI: whataContext
     };
 
+console.log(whataContext() === window); // true
 console.log(freakingContext.whereAmI() === freakingContext); // true
 ```
 By adding the **new** keyword, the scope will be the brand new created object
@@ -35,12 +32,8 @@ function whataContext() {
     return this;
 }
 
-console.log(whataContext() === window); // true
-
 var freakingContext = {
-        whereAmI: function() {
-            return this;
-        }
+        whereAmI: whataContext
     };
 
 console.log(whataContext.apply(freakingContext) === freakingContext); // true
@@ -67,17 +60,19 @@ console.log(tryMeOutThere); // ReferenceError
 ```javascript
 var namespace = namespace || {}
 
+(function(){
+    namespace.MyClass = function() {
+        // ...
+    };
+}());
+```
+or:
+```javascript
 (function(ns){
     ns.MyClass = function() {
         // ...
     };
 }(namespace));
-
-(function(){
-    this.MyClass = function() {
-        // ...
-    };
-}).apply(namespace);
 ```
 
 ### Some Patterns
@@ -257,10 +252,9 @@ console.log(myClass.getPrivateProperty()); // bar
 console.log(myOtherClass.getPrivateProperty()); // foo
 ```
 
-#### Don't want to instantiate it myself
+##### Singleton?!
 
-So, self instantiate it:
-
+Self instantiation:
 ```javascript
 var myClass = new (function(){
     var MyClass = function() {
@@ -270,7 +264,8 @@ var myClass = new (function(){
     return MyClass;
 }());
 ```
-or:
+
+Object Literal:
 ```javascript
 var myClass = (function(){
 
@@ -281,6 +276,8 @@ var myClass = (function(){
         };
 
     return {
+        publicProperty: 'public bar',
+
         setPrivateProperty: function(value) {
             privateProperty = value;
         },
@@ -334,3 +331,4 @@ try {
 - http://stackoverflow.com/a/38086977
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
 - https://developer.mozilla.org/en/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#Example
+- https://en.wikipedia.org/wiki/Foobar
