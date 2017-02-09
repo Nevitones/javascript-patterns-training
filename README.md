@@ -26,7 +26,7 @@ var freakingContext = {
 
 console.log(freakingContext.whereAmI() === freakingContext); // true
 ```
-Adding the **new** keyword, the function uses the brand new created object
+By adding the **new** keyword, the scope will be the brand new created object
 
 ##### Apply and Call
 
@@ -49,11 +49,11 @@ console.log(whataContext.apply(freakingContext) === freakingContext); // true
 ##### Closures
 The function ability of having its own scope.
 
-**IIFE** (**I**mmediately **I**nvoked **F**unction **E**xpression)
+**IIFE** (Immediately Invoked Function Expression)
 
-**SIAF** (**S**elf **I**nvoking **A**nonymous **F**unction)
+**SIAF** (Self Invoking Anonymous Function)
 
-**SEAF** (**S**elf-**E**xecuting **A**nonymous **F**unction)
+**SEAF** (Self-Executing Anonymous Function)
 
 ```javascript
 (function(){
@@ -156,7 +156,7 @@ var MyClass = (function(){
         this.setPrivateProperty = function(value) {
             privateProperty = value;
         }
-        
+
         this.getPrivateProperty = function() {
             return privateProperty;
         }
@@ -169,7 +169,7 @@ var MyClass = (function(){
     MyClass.prototype.setPrivateSharedProperty = function(value) {
         privateSharedProperty = value;
     }
-    
+
     MyClass.prototype.getPrivateSharedProperty = function() {
         return privateSharedProperty;
     }
@@ -218,11 +218,11 @@ try {
 var MyClass = (function(){
     function MyClass() {
         var privateProperty = 'foo';
-        
+
         this.getPrivateProperty = function() {
             return privateProperty;
         }
-        
+
         this.setPrivateProperty = function(value) {
             privateProperty = value;
         }
@@ -238,7 +238,7 @@ var MyOtherClass = (function(){
 
     // MyOtherClass.prototype = MyClass.prototype; // Shares the prototype
     // MyOtherClass.prototype = new MyClass(); // Calls the constructor twice
-    MyOtherClass.prototype = Object.create(MyClass.prototype); // Seems good
+    MyOtherClass.prototype = Object.create(MyClass.prototype); // Sounds good to me
 
     MyOtherClass.prototype.constructor = MyOtherClass;
 
@@ -257,17 +257,80 @@ console.log(myClass.getPrivateProperty()); // bar
 console.log(myOtherClass.getPrivateProperty()); // foo
 ```
 
-#### Don't want to instantiate it :warning:
+#### Don't want to instantiate it myself
 
-### Misc :warning:
-strict equal operator ===
-never omit semicolons
-jquery (avoid unnecessary queries)
-http://jsperf.com/getelementbyid-vs-jquery-id
-be careful with browser support (e.g. forEach)
+So, self instantiate it:
 
+```javascript
+var myClass = new (function(){
+    var MyClass = function() {
+        // ...
+    }
+
+    return MyClass;
+}());
+```
+or:
+```javascript
+var myClass = (function(){
+
+    // Private Members
+    var privateProperty = 'private foo',
+        privateMethod = function() {
+            return 'Instance method accessing a instance property: ' + privateProperty;
+        };
+
+    return {
+        setPrivateProperty: function(value) {
+            privateProperty = value;
+        },
+
+        getPrivateProperty: function() {
+            return privateProperty;
+        },
+
+        callPrivateMethod: function() {
+            return privateMethod.apply(this, arguments);
+        }
+    }
+
+}());
+
+/* Private Members */
+myClass.setPrivateProperty('private bar');
+console.log(myClass.getPrivateProperty()); // 'private bar'
+console.log(myClass.callPrivateMethod());
+
+try {
+    console.log('context:', myClass.privateMethod()); // Error
+} catch(err) {
+    console.log('Can\'t access a private method!');
+}
+```
+
+### Off Topic Tips
+
+- Use strict equal operator, please!
+
+- Why omit semicolons dude?
+
+- jQuery (avoid unnecessary queries)
+
+  http://jsperf.com/getelementbyid-vs-jquery-id
+
+- Be careful with browser support (e.g. forEach)
+
+- Linter for the win!
 
 ### References
-http://stackoverflow.com/questions/1441212/javascript-instance-functions-versus-prototype-functions#answer-1441692
-http://stackoverflow.com/a/4613017
-https://developer.mozilla.org/en/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#Example
+- http://bonsaiden.github.io/JavaScript-Garden/#function.this
+- http://ryanmorr.com/understanding-scope-and-context-in-javascript/
+- http://tobyho.com/2010/11/22/javascript-constructors-and/
+- http://www.dofactory.com/javascript/design-patterns
+- http://stackoverflow.com/a/4613017
+- http://www.adequatelygood.com/JavaScript-Module-Pattern-In-Depth.html
+- http://stackoverflow.com/a/1441692/1723912
+- http://stackoverflow.com/a/4613017
+- http://stackoverflow.com/a/38086977
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
+- https://developer.mozilla.org/en/docs/Web/JavaScript/Inheritance_and_the_prototype_chain#Example
